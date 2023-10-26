@@ -1,0 +1,38 @@
+/* Estilos CSS */
+body {
+    font-family: Arial, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+form {
+    margin-bottom: 10px;
+}
+
+label{margin-left: 10px;
+      padding-bottom: 10px;         
+}
+#dni{margin-left: 30px;}
+
+.itemsFormulario{
+    margin-top: 15px;
+}
+.guardar{
+    margin-top: 15px;
+    margin-left: 80px;
+}
+
+

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gestion de Productos</title>
+    <link rel="stylesheet" type="text/css" href="./css/stylePaciente.css">
+</head>
+<body>
+    <h1>Gestion de Producto</h1>
+
+    <h2>Agregar Producto</h2>
+    <form id="altaForm" method="post" enctype="multipart/form-data">
+        <div class="itemsFormulario">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required>
+        </div>
+        <div class="itemsFormulario">
+        <label for="descripcion">Descripcion:</label>
+        <input type="text" id="descripcion" required>
+        </div>
+        <div class="itemsFormulario">
+        <label for="stock">Stock:</label>               
+        <input type="number" id="stock" required>
+        </div>
+        <div class="itemsFormulario">
+            <label for="precio">Precio:</label>               
+            <input type="number" id="precio" required>
+            </div>
+        <div class="itemsFormulario">
+        <label for="imagen">Imagen:</label>
+        <input type="file" name="file" id="imagen" required><br>
+        
+        </div>
+        <div id="respuestaAgregarPaciente"></div>
+        <div class="guardar">
+        <input type="submit" value="Guardar">
+        </div>
+    </form>
+
+    <div id="divModificacion de Pacientes" style="display: none">
+        <h1>Modificacion de Pacientes</h1>
+        <form id="altaForm-control">
+            <div class="itemsFormulario">
+                <label for="id-control" >Id:</label>
+                <input type="text" id="id-control" readonly>
+            </div>
+            <div class="itemsFormulario">
+                <label for="nombre" >Nombre:</label>
+                <input type="text" id="nombre-control" required>
+            </div>
+            <div class="itemsFormulario">
+                <label for="apellido-control">Apellido:</label>
+                <input type="text" id="apellido-control" required>
+            </div>
+            <div class="itemsFormulario">
+                <label for="dni-modificar">DNI:</label>               
+                <input type="text" id="dni-modificar" required>
+            </div>
+            <div class="itemsFormulario">
+                <label for="domicilio-modificar">Domicilio:</label>               
+                <input type="text" id="domicilio-modificar" required>
+            </div>
+            <div class="itemsFormulario">
+                <label for="fechaAlta-modificar">Fecha de Alta:</label>
+                <input type="date" id="fechaAlta-modificar" required><br>
+            </div>
+            <div class="guardar">
+            <input id="guardaPacienteModificado" type="submit" value="GuardarPacienteModificado">
+            </div>
+            <!-- <button id="guardaPacienteModificado">GuardarPacienteModificado</button> -->
+        </form>
+    </div>
+
+    <h2>Lista de Pacientes    <button id="listarPacientes">Lista Pacientes</button> </h2>
+    <table id="pacientesTable">
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>DNI</th>
+            <th>Domicilio</th>
+            <th>Fecha de Alta</th>
+            <th>Acciones</th>
+        </tr>
+    </table>
+    <script src="./js/productos.js"></script>
+    <script src="./js/pacientelistar.js"></script>
+</body>
+</html>

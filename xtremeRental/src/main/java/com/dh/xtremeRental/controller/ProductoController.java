@@ -22,11 +22,6 @@ public class ProductoController {
 
     @PostMapping()
     public ResponseEntity<ProductoDto> crearProducto(@RequestBody ProductoDto productoDto, @RequestParam("file") MultipartFile imagen){
-        ProductoDto pDto= productoService.crear(productoDto);
-
-        if(pDto != null){
-            return ResponseEntity.status(HttpStatus.OK).body(pDto);
-        }
 
         if(!imagen.isEmpty()){
             Path directorioImagenes = Paths.get("src//main//resources//static//images");
@@ -42,6 +37,14 @@ public class ProductoController {
                 throw new RuntimeException(e);
             }
         }
+
+        ProductoDto pDto= productoService.crear(productoDto);
+
+        if(pDto != null){
+            return ResponseEntity.status(HttpStatus.OK).body(pDto);
+        }
+
+
         ResponseEntity<ProductoDto> response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return  response;
     }

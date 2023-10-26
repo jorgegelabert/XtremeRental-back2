@@ -25,6 +25,7 @@ public class Producto {
         private String nombreProducto;
         private String descripcionProducto;
         private Integer stock;
+        private Double precioPorHora;
         private String imagen;
 
         @OneToMany(mappedBy = "producto",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
