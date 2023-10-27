@@ -22,29 +22,11 @@ public class ProductoController {
 
     @PostMapping()
     public ResponseEntity<ProductoDto> crearProducto(@RequestBody ProductoDto productoDto, @RequestParam("file") MultipartFile imagen){
-
-        if(!imagen.isEmpty()){
-            Path directorioImagenes = Paths.get("src//main//resources//static//images");
-            String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
-
-            try {
-                byte[] bytesImg = imagen.getBytes();
-                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
-                Files.write(rutaCompleta,bytesImg);
-
-                productoDto.setImagen(imagen.getOriginalFilename());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
         ProductoDto pDto= productoService.crear(productoDto);
 
         if(pDto != null){
             return ResponseEntity.status(HttpStatus.OK).body(pDto);
         }
-
-
         ResponseEntity<ProductoDto> response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return  response;
     }

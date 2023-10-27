@@ -1,5 +1,6 @@
 package com.dh.xtremeRental.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,4 +23,8 @@ public class Imagen {
     private String name;
     @Lob
     private byte[] data;
+
+    @OneToOne(mappedBy = "imagen",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Producto producto;
 }

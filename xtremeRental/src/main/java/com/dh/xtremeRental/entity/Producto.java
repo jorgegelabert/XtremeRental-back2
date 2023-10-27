@@ -18,6 +18,7 @@ import java.util.Set;
 
 @Entity
 @Table
+
 public class Producto {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +27,14 @@ public class Producto {
         private String descripcionProducto;
         private Integer stock;
         private Double precioPorHora;
-        private String imagen;
 
-        @OneToMany(mappedBy = "producto",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-        @JsonIgnore
-        //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-        private Set<Alquiler> alquileres; //un producto al tener stock puede tener varios alquileres
+        @OneToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "imagen_id", nullable = false)
+        private Imagen imagen;
+
+        @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+        private Set<Alquiler> alquileres;
+
+        // Otros getters y setters
 }
+
