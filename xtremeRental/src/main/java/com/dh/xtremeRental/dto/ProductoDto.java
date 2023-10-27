@@ -1,5 +1,6 @@
 package com.dh.xtremeRental.dto;
 
+import com.dh.xtremeRental.entity.Imagen;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
