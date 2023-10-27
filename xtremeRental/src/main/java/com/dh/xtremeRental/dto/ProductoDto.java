@@ -21,5 +21,5 @@ public class ProductoDto {
     private String descripcionProducto;
     private Integer stock;
     private Double precioPorHora;
-    private String imagen;
+    private Imagen imagen;
 }

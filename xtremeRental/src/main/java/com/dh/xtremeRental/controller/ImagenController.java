@@ -8,6 +8,7 @@ import com.dh.xtremeRental.service.ImagenService;
 import com.dh.xtremeRental.service.ProductoService;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -23,6 +24,7 @@ import java.util.Set;
 public class ImagenController {
     @Autowired
     ImagenService imagenService;
+
 
     @PostMapping("/upload")
     public String uploadImage(@RequestParam("data") MultipartFile file, Model model) throws IOException {
