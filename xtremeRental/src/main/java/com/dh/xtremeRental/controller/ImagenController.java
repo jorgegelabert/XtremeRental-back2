@@ -1,15 +1,13 @@
 package com.dh.xtremeRental.controller;
 
 import com.dh.xtremeRental.dto.ImagenDto;
+import com.dh.xtremeRental.dto.ProductoDto;
 import com.dh.xtremeRental.entity.Imagen;
 import com.dh.xtremeRental.service.ImagenService;
 import com.dh.xtremeRental.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
@@ -30,5 +28,14 @@ public class ImagenController {
             imagenService.crear(image);
         }
         return "redirect:/";
+    }
+
+
+    @GetMapping("/{id}")
+    public ImagenDto buscarImagenId(@PathVariable Integer id){
+        ImagenDto i =imagenService.buscar(id);
+
+
+        return imagenService.buscar(id);
     }
 }
