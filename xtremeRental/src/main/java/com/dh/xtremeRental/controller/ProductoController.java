@@ -15,6 +15,8 @@ import java.util.Set;
 public class ProductoController {
     @Autowired
     ProductoService productoService;
+
+
     ImagenService imagenService;
 
     @PostMapping()
@@ -55,6 +57,11 @@ public class ProductoController {
         String producto = productoService.eliminar(id);
         return ResponseEntity.status(HttpStatus.OK).body(producto);
     }
+
+
+
+
+
 
 
 }

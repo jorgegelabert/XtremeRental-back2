@@ -61,7 +61,7 @@ function agregarImagen(event) {
     
     let error="";
 
-    const url= '/productos/upload';
+    const url= 'assets/upload';
     const settings ={
         "method":"POST",
         "headers":{

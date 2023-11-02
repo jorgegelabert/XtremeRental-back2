@@ -1,5 +1,6 @@
 package com.dh.xtremeRental.controller;
 
+import com.dh.xtremeRental.dto.ImagenDto;
 import com.dh.xtremeRental.entity.vm.Asset;
 import com.dh.xtremeRental.service.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,12 @@ public class AssetController {
     @Autowired
     private S3Service s3Service;
 
+    //@Autowired
+    //private ImagenDto imagenDto;
+
     @PostMapping("/upload")
     Map<String,String> upload(@RequestParam MultipartFile file){
         String key = s3Service.putObject(file);
-
         Map<String,String> result = new HashMap<>();
         result.put("key",key);
         result.put("url",s3Service.getObjectURL(key));

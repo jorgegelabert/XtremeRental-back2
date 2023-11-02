@@ -6,6 +6,7 @@ import com.dh.xtremeRental.dto.ProductoDto;
 import com.dh.xtremeRental.entity.Imagen;
 import com.dh.xtremeRental.service.ImagenService;
 import com.dh.xtremeRental.service.ProductoService;
+import com.dh.xtremeRental.service.S3Service;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/imagenes")
@@ -26,7 +28,12 @@ public class ImagenController {
     @Autowired
     ImagenService imagenService;
 
+    @Autowired
+    private S3Service s3Service;
 
+
+
+/*
     @PostMapping("/upload")
     public String uploadImage(@RequestParam("data") MultipartFile file, Model model) throws IOException {
         if (file != null && !file.isEmpty()) {
@@ -41,7 +48,7 @@ public class ImagenController {
    /* @GetMapping("/{id}")
     public ImagenDto buscarImagen (@PathVariable Integer id){
         return imagenService.buscar(id);
-    }*/
+    }
 
 
     @GetMapping("/{imageId}")
@@ -78,9 +85,24 @@ public class ImagenController {
         String imagen = imagenService.eliminar(id);
         return ResponseEntity.status(HttpStatus.OK).body(imagen);
     }
-
+    */
     @GetMapping()
     public Set<ImagenDto> listarImagenes(){
-        return imagenService.listartodos();
+
+        return (Set<ImagenDto>) imagenService.listartodos()
+                .stream()
+                .peek( imagen -> imagen.setImagenUrl(s3Service.getObjectURL(imagen.getImagenPath())))
+                .collect(Collectors.toList());
     }
+
+    @PostMapping
+    ImagenDto create(@RequestBody ImagenDto imagenDto){
+        imagenDto.setImagenPath(s3Service.getObjectURL(imagenDto.getImagenPath()));
+        ImagenDto imagenCreada = imagenService.crear(imagenDto);
+
+        //imagenDto.setImagenUrl(s3Service.getObjectURL(imagenDto.getImagenPath()));
+        return imagenCreada;
+    }
+
+
 }
