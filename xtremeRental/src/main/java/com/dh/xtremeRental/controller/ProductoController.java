@@ -1,17 +1,13 @@
 package com.dh.xtremeRental.controller;
 
 import com.dh.xtremeRental.dto.ProductoDto;
+import com.dh.xtremeRental.service.ImagenService;
 import com.dh.xtremeRental.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Set;
 
 @RestController
@@ -19,9 +15,10 @@ import java.util.Set;
 public class ProductoController {
     @Autowired
     ProductoService productoService;
+    ImagenService imagenService;
 
     @PostMapping()
-    public ResponseEntity<ProductoDto> crearProducto(@RequestBody ProductoDto productoDto, @RequestParam("file") MultipartFile imagen){
+    public ResponseEntity<ProductoDto> crearProducto(@RequestBody ProductoDto productoDto){
         ProductoDto pDto= productoService.crear(productoDto);
 
         if(pDto != null){
@@ -35,6 +32,8 @@ public class ProductoController {
     public ProductoDto buscarProductoId(@PathVariable Integer id){
         return productoService.buscar(id);
     }
+
+
 
     @GetMapping()
     public Set<ProductoDto> listarProductos(){
@@ -56,5 +55,6 @@ public class ProductoController {
         String producto = productoService.eliminar(id);
         return ResponseEntity.status(HttpStatus.OK).body(producto);
     }
+
 
 }

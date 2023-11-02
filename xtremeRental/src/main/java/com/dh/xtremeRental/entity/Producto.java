@@ -28,7 +28,7 @@ public class Producto {
         private Integer stock;
         private Double precioPorHora;
 
-        @OneToOne(fetch = FetchType.LAZY)
+        @OneToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "imagen_id", nullable = false)
         private Imagen imagen;
 

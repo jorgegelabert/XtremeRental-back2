@@ -48,6 +48,43 @@ function agregarProducto(event) {
 
 document.getElementById("altaForm").addEventListener("submit", agregarProducto);
 
+function agregarImagen(event) {
+    event.preventDefault();
+
+    // Obtener los valores del formulario
+    let imagen = document.getElementById("imagen").value;
+
+    // Crear objeto producto
+    const imagenes = {
+        imagen: imagen
+    };
+    
+    let error="";
+
+    const url= '/productos/upload';
+    const settings ={
+        "method":"POST",
+        "headers":{
+            'Content-Type': 'application/json',
+        },
+        "body":JSON.stringify(imagenes)
+    }
+
+    fetch(url,settings)
+    .then(response => response.json())
+    .then(data => {
+        window.alert("Producto agregado correctamente")
+        resetUploadForm();
+
+    })    
+    .catch(function (e){alert(e);      
+    })
+    console.log(error.getMessage);
+    console.log(error);
+    
+} 
+
+document.getElementById("altaForm").addEventListener("submit", agregarImagen);
 
 
 function resetUploadForm(){

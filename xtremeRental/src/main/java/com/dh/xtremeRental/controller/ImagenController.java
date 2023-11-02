@@ -10,6 +10,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,9 +38,23 @@ public class ImagenController {
         return "redirect:/";
     }
 
-    @GetMapping("/{id}")
+   /* @GetMapping("/{id}")
     public ImagenDto buscarImagen (@PathVariable Integer id){
         return imagenService.buscar(id);
+    }*/
+
+
+    @GetMapping("/{imageId}")
+    public ResponseEntity<byte[]> getImage(@PathVariable Integer imageId) {
+
+        ImagenDto image = imagenService.buscar(imageId);
+        if (image != null) {
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(image.getData());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")
