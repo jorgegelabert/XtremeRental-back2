@@ -1,24 +1,11 @@
 package com.dh.xtremeRental.controller;
 
-import com.dh.xtremeRental.dto.AlquilerDto;
 import com.dh.xtremeRental.dto.ImagenDto;
-import com.dh.xtremeRental.dto.ProductoDto;
-import com.dh.xtremeRental.entity.Imagen;
 import com.dh.xtremeRental.service.ImagenService;
-import com.dh.xtremeRental.service.ProductoService;
 import com.dh.xtremeRental.service.S3Service;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
-import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -91,13 +78,13 @@ public class ImagenController {
 
         return (Set<ImagenDto>) imagenService.listartodos()
                 .stream()
-                .peek( imagen -> imagen.setImagenUrl(s3Service.getObjectURL(imagen.getImagenPath())))
+                .peek( imagen -> imagen.setImagenUrl(s3Service.getObjectURL(imagen.getImagenUrl())))
                 .collect(Collectors.toList());
     }
 
     @PostMapping
     ImagenDto create(@RequestBody ImagenDto imagenDto){
-        imagenDto.setImagenPath(s3Service.getObjectURL(imagenDto.getImagenPath()));
+        imagenDto.setImagenUrl(s3Service.getObjectURL(imagenDto.getImagenUrl()));
         ImagenDto imagenCreada = imagenService.crear(imagenDto);
 
         //imagenDto.setImagenUrl(s3Service.getObjectURL(imagenDto.getImagenPath()));

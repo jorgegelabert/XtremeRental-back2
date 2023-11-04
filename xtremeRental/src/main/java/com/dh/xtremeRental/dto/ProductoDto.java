@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,5 +23,5 @@ public class ProductoDto {
     private String descripcionProducto;
     private Integer stock;
     private Double precioPorHora;
-    private Imagen imagen;
+    private List<ImagenDto> imagenes;
 }

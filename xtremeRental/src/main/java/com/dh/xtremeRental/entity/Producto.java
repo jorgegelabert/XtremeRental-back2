@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -28,9 +29,9 @@ public class Producto {
         private Integer stock;
         private Double precioPorHora;
 
-        @OneToOne(fetch = FetchType.EAGER)
-        @JoinColumn(name = "imagen_id", nullable = false)
-        private Imagen imagen;
+        @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+        @JoinColumn(name="producto_id", referencedColumnName ="id" )
+        private List<Imagen> imagenes;
 
         @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
         private Set<Alquiler> alquileres;

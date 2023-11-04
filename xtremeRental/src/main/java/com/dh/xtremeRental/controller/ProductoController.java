@@ -16,8 +16,9 @@ public class ProductoController {
     @Autowired
     ProductoService productoService;
 
-
+    @Autowired
     ImagenService imagenService;
+
 
     @PostMapping()
     public ResponseEntity<ProductoDto> crearProducto(@RequestBody ProductoDto productoDto){

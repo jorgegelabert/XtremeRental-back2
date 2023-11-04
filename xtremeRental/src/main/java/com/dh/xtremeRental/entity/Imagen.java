@@ -21,13 +21,14 @@ public class Imagen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Transient
+
     private String imagenUrl;
 
     private String imagenPath;
 
-    @OneToOne(mappedBy = "imagen",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonIgnore
-    private Producto producto;
+ //   @ManyToOne(fetch=FetchType.LAZY)
+ //   @JoinColumn(name="producto_id", nullable = false)
+ //  @JsonIgnore
+ //   private Producto producto;
+
 }
