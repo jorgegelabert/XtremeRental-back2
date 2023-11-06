@@ -14,7 +14,7 @@ public class UsuarioController {
 
         @Autowired
         UsuarioService usuarioService;
-
+    @CrossOrigin
         @PostMapping()
         public ResponseEntity<UsuarioDto> crearUsuario(@RequestBody UsuarioDto usuarioDto){
             UsuarioDto uDto= usuarioService.crear(usuarioDto);
@@ -25,17 +25,17 @@ public class UsuarioController {
             return  response;
         }
 
-
+    @CrossOrigin
         @GetMapping("/{id}")
         public UsuarioDto buscarUsuarioId(@PathVariable Integer id){
             return usuarioService.buscar(id);
         }
-
+    @CrossOrigin
         @GetMapping()
         public Set<UsuarioDto> listarUsuarios(){
             return usuarioService.listartodos();
         }
-
+    @CrossOrigin
         @PutMapping()
         public ResponseEntity<UsuarioDto> modificarUsuario(@RequestBody UsuarioDto usuarioDto){
             UsuarioDto uDto= usuarioService.modificar(usuarioDto);
@@ -45,7 +45,7 @@ public class UsuarioController {
             ResponseEntity<UsuarioDto> response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             return  response;
         }
-
+    @CrossOrigin
         @DeleteMapping("/{id}")
         public ResponseEntity<?> eliminarUsuario(@PathVariable Integer id ){
             String usuario = usuarioService.eliminar(id);

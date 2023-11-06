@@ -22,7 +22,7 @@ public class AssetController {
 
     //@Autowired
     //private ImagenDto imagenDto;
-
+    @CrossOrigin
     @PostMapping("/upload")
     Map<String,String> upload(@RequestParam MultipartFile file){
         String key = s3Service.putObject(file);
@@ -31,7 +31,7 @@ public class AssetController {
         result.put("url",s3Service.getObjectURL(key));
         return  result;
     }
-
+    @CrossOrigin
     @GetMapping(value= "/get-object" , params = "key")
     ResponseEntity<ByteArrayResource> getObject(@RequestParam String key) throws IOException {
         Asset asset = s3Service.getObject(key);
@@ -43,7 +43,7 @@ public class AssetController {
                 .contentLength(asset.getContent().length)
                 .body(resource);
     }
-
+    @CrossOrigin
     @DeleteMapping(value = "/delete-object" , params = "key")
     void deleteObject(@RequestParam String key){
         s3Service.deleteObject(key);

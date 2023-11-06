@@ -15,6 +15,7 @@ public class AlquilerController {
     @Autowired
     AlquilerService alquilerService;
 
+    @CrossOrigin
     @PostMapping()
     public ResponseEntity<AlquilerDto> crearAlquiler (@RequestBody AlquilerDto alquilerDto){
         AlquilerDto aDto = alquilerService.crear(alquilerDto);
@@ -24,17 +25,17 @@ public class AlquilerController {
         ResponseEntity response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return response;
     }
-
+    @CrossOrigin
     @GetMapping("/{id}")
     public AlquilerDto buscarAlquilerId (@PathVariable Integer id){
         return alquilerService.buscar(id);
     }
-
+    @CrossOrigin
     @GetMapping()
     public Set<AlquilerDto> listarAlquilers(){
         return  alquilerService.listartodos();
     }
-
+    @CrossOrigin
     @PutMapping()
     public ResponseEntity<AlquilerDto> modificarAlquiler (@RequestBody AlquilerDto alquilerDto){
         AlquilerDto tDto = alquilerService.modificar(alquilerDto);
@@ -45,7 +46,7 @@ public class AlquilerController {
         return response;
     }
 
-
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarAlquiler (@PathVariable Integer id){
         String alquiler = alquilerService.eliminar(id);

@@ -73,6 +73,7 @@ public class ImagenController {
         return ResponseEntity.status(HttpStatus.OK).body(imagen);
     }
     */
+@CrossOrigin
     @GetMapping()
     public Set<ImagenDto> listarImagenes(){
 
@@ -81,7 +82,7 @@ public class ImagenController {
                 .peek( imagen -> imagen.setImagenUrl(s3Service.getObjectURL(imagen.getImagenUrl())))
                 .collect(Collectors.toList());
     }
-
+    @CrossOrigin
     @PostMapping
     ImagenDto create(@RequestBody ImagenDto imagenDto){
         imagenDto.setImagenUrl(s3Service.getObjectURL(imagenDto.getImagenUrl()));

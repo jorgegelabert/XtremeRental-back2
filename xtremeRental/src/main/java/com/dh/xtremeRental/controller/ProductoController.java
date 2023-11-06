@@ -19,7 +19,7 @@ public class ProductoController {
     @Autowired
     ImagenService imagenService;
 
-
+    @CrossOrigin
     @PostMapping()
     public ResponseEntity<ProductoDto> crearProducto(@RequestBody ProductoDto productoDto){
         ProductoDto pDto= productoService.crear(productoDto);
@@ -30,19 +30,19 @@ public class ProductoController {
         ResponseEntity<ProductoDto> response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return  response;
     }
-
+    @CrossOrigin
     @GetMapping("/{id}")
     public ProductoDto buscarProductoId(@PathVariable Integer id){
         return productoService.buscar(id);
     }
 
 
-
+    @CrossOrigin
     @GetMapping()
     public Set<ProductoDto> listarProductos(){
         return productoService.listartodos();
     }
-
+    @CrossOrigin
     @PutMapping()
     public ResponseEntity<ProductoDto> modificarProducto(@RequestBody ProductoDto productoDto){
         ProductoDto pDto= productoService.modificar(productoDto);
@@ -52,7 +52,7 @@ public class ProductoController {
         ResponseEntity<ProductoDto> response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return  response;
     }
-
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarProducto(@PathVariable Integer id ){
         String producto = productoService.eliminar(id);
