@@ -24,4 +24,5 @@ public class ProductoDto {
     private Integer stock;
     private Double precioPorHora;
     private List<ImagenDto> imagenes;
+    private String categoria;
 }

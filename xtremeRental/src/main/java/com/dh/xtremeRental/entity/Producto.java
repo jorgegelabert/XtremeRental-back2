@@ -28,6 +28,7 @@ public class Producto {
         private String descripcionProducto;
         private Integer stock;
         private Double precioPorHora;
+        private String categoria;
 
         @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
         @JoinColumn(name="producto_id", referencedColumnName ="id" )
