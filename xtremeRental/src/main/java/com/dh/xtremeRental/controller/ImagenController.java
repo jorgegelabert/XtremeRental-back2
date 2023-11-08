@@ -79,13 +79,13 @@ public class ImagenController {
 
         return (Set<ImagenDto>) imagenService.listartodos()
                 .stream()
-                .peek( imagen -> imagen.setImagenUrl(s3Service.getObjectURL(imagen.getImagenUrl())))
+                .peek( imagen -> imagen.setUrl(s3Service.getObjectURL(imagen.getUrl())))
                 .collect(Collectors.toList());
     }
     @CrossOrigin
     @PostMapping
     ImagenDto create(@RequestBody ImagenDto imagenDto){
-        imagenDto.setImagenUrl(s3Service.getObjectURL(imagenDto.getImagenUrl()));
+        imagenDto.setUrl(s3Service.getObjectURL(imagenDto.getUrl()));
         ImagenDto imagenCreada = imagenService.crear(imagenDto);
 
         //imagenDto.setImagenUrl(s3Service.getObjectURL(imagenDto.getImagenPath()));

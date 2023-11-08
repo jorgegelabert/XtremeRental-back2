@@ -13,7 +13,7 @@ import lombok.Setter;
 
 public class ImagenDto {
         private Integer id;
-        private String imagenUrl;
-        private String imagenPath;
+        private String url;
+        private String keyPath;
 }
 

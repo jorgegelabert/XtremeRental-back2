@@ -10,4 +10,6 @@ public class XtremeRentalApplication {
 		SpringApplication.run(XtremeRentalApplication.class, args);
 	}
 
+
+
 }

@@ -1,7 +1,5 @@
 package com.dh.xtremeRental.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,9 +20,9 @@ public class Imagen {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String imagenUrl;
+    private String url;
 
-    private String imagenPath;
+    private String keyPath;
 
  //   @ManyToOne(fetch=FetchType.LAZY)
  //   @JoinColumn(name="producto_id", nullable = false)
