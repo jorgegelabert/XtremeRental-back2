@@ -21,6 +21,7 @@ public class ProductoService implements ICrudService<ProductoDto, Producto> {
 
     @Autowired
     private IProductoRepository productoRepository;
+
     @Autowired
     ObjectMapper mapper;
 
@@ -46,6 +47,16 @@ public class ProductoService implements ICrudService<ProductoDto, Producto> {
         }
         return null;
     }
+
+    public Set<ProductoDto> buscarPorPalabra(String palabra) {
+        List<Producto> productos = productoRepository.findByPalabra(palabra);
+        Set<ProductoDto> productosDto = new HashSet<>();
+        for (Producto p: productos) {
+            productosDto.add(mapper.convertValue(p, ProductoDto.class));
+        }
+        return productosDto;
+    }
+
 
     @Override
     public ProductoDto modificar(ProductoDto productoDto) {

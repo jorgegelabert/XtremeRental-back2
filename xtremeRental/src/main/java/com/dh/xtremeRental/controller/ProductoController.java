@@ -38,6 +38,13 @@ public class ProductoController {
 
 
     @CrossOrigin
+    @GetMapping("/busqueda/{palabra}")
+    public Set<ProductoDto> buscarProductoPalabra(@PathVariable String palabra){
+        return productoService.buscarPorPalabra(palabra);
+    }
+
+
+    @CrossOrigin
     @GetMapping()
     public Set<ProductoDto> listarProductos(){
         return productoService.listartodos();
