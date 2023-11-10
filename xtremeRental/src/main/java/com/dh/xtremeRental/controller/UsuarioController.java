@@ -1,4 +1,5 @@
 package com.dh.xtremeRental.controller;
+import com.dh.xtremeRental.dto.ProductoDto;
 import com.dh.xtremeRental.dto.UsuarioDto;
 import com.dh.xtremeRental.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -33,7 +38,13 @@ public class UsuarioController {
     @CrossOrigin
         @GetMapping()
         public Set<UsuarioDto> listarUsuarios(){
-            return usuarioService.listartodos();
+
+        List<UsuarioDto> usuariosOrdenados = usuarioService.listartodos()
+                .stream()
+                .sorted(Comparator.comparing(UsuarioDto::getId))
+                .collect(Collectors.toList());
+        return new LinkedHashSet<>(usuariosOrdenados);
+
         }
     @CrossOrigin
         @PutMapping()

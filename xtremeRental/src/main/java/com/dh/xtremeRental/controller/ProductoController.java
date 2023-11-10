@@ -8,7 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/productos")
@@ -40,15 +44,15 @@ public class ProductoController {
     @CrossOrigin
     @GetMapping("/busqueda/{palabra}")
     public Set<ProductoDto> buscarProductoPalabra(@PathVariable String palabra){
-        return productoService.buscarPorPalabra(palabra);
+
+        List<ProductoDto> productosOrdenados = productoService.buscarPorPalabra(palabra)
+                .stream()
+                .sorted(Comparator.comparing(ProductoDto::getId))
+                .collect(Collectors.toList());
+
+        return new LinkedHashSet<>(productosOrdenados);
     }
 
-
-    @CrossOrigin
-    @GetMapping()
-    public Set<ProductoDto> listarProductos(){
-        return productoService.listartodos();
-    }
     @CrossOrigin
     @PutMapping()
     public ResponseEntity<ProductoDto> modificarProducto(@RequestBody ProductoDto productoDto){
@@ -66,7 +70,16 @@ public class ProductoController {
         return ResponseEntity.status(HttpStatus.OK).body(producto);
     }
 
+    @CrossOrigin
+    @GetMapping()
+    public Set<ProductoDto> listarProductos() {
+        List<ProductoDto> productosOrdenados = productoService.listartodos()
+                .stream()
+                .sorted(Comparator.comparing(ProductoDto::getId))
+                .collect(Collectors.toList());
 
+        return new LinkedHashSet<>(productosOrdenados);
+    }
 
 
 
