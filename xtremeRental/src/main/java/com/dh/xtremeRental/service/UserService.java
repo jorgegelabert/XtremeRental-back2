@@ -138,4 +138,12 @@ public class UserService implements ICrudService<UserDto, User> {
         return null;
     }
 
+    /*public String asignaAdmin(String username) {
+        User usuario = userRepository.findByUsername2(username);
+        if(usuario.getRole().equals("ADMIN")){
+            return "Se modifico correctamente";
+        }
+        return "No se modificò";
+    }*/
+
 }

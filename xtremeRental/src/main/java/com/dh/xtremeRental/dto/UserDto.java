@@ -19,6 +19,7 @@ public class UserDto {
     private String nombre;
     private String apellido;
     private String password;
+    private Role role;
 
 
 }

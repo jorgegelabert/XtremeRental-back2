@@ -69,10 +69,10 @@ public class UsuarioController {
     }
 
 
-    @CrossOrigin
+    /*@CrossOrigin
     @GetMapping("/admin/{nombreUsuario}")
-    public UserDto asignaAdmin(@PathVariable String nombreUsuario){
-        return usuarioService.buscarNombreUsuario(nombreUsuario);
-    }
+    public String asignaAdmin(@PathVariable String nombreUsuario){
+        return usuarioService.asignaAdmin(nombreUsuario);
+    }*/
 
 }
