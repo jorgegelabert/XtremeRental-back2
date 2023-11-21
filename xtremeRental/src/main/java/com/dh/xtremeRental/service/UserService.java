@@ -1,9 +1,9 @@
 package com.dh.xtremeRental.service;
 
-import com.dh.xtremeRental.dto.UsuarioDto;
-import com.dh.xtremeRental.entity.Usuario;
+import com.dh.xtremeRental.dto.UserDto;
+import com.dh.xtremeRental.User.User;
 import com.dh.xtremeRental.interfaces.ICrudService;
-import com.dh.xtremeRental.repository.IUsuarioRepository;
+import com.dh.xtremeRental.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,45 +15,47 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class UsuarioService implements ICrudService<UsuarioDto, Usuario> {
+public class UserService implements ICrudService<UserDto, User> {
     @Autowired
-    private IUsuarioRepository usuarioRepository;
+    private UserRepository userRepository;
+
+
 
     @Autowired
     ObjectMapper mapper;
 
 
     @Override
-    public UsuarioDto crear(UsuarioDto usuarioDto) {
-        Usuario u = mapper.convertValue(usuarioDto,Usuario.class);
+    public UserDto crear(UserDto userDto) {
+        User u = mapper.convertValue(userDto,User.class);
         Integer operacion=1;
         Boolean validado = compruebaReglaNegocioUsuario(u,operacion);
         if(validado){
-            Usuario usuarioCreado= usuarioRepository.save(u);
-            return mapper.convertValue(usuarioCreado,UsuarioDto.class);
+            User usuarioCreado= userRepository.save(u);
+            return mapper.convertValue(usuarioCreado, UserDto.class);
         }
         return null;
     }
 
     @Override
-    public UsuarioDto buscar(Integer id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
+    public UserDto buscar(Integer id) {
+        Optional<User> usuario = userRepository.findById(id);
         if(usuario.isPresent()){
-            return mapper.convertValue(usuario,UsuarioDto.class);
+            return mapper.convertValue(usuario, UserDto.class);
         }
         return null;
     }
 
     @Override
-    public UsuarioDto modificar(UsuarioDto usuarioDto) {
-        Usuario u = mapper.convertValue(usuarioDto,Usuario.class);
+    public UserDto modificar(UserDto userDto) {
+        User u = mapper.convertValue(userDto,User.class);
         Integer operacion=2;
         Boolean validado = compruebaReglaNegocioUsuario(u,operacion);
         if(validado) {
-            Optional<Usuario> usuario = usuarioRepository.findById(u.getId());
+            Optional<User> usuario = userRepository.findById(u.getId());
             if(usuario.isPresent()){
-                Usuario uCreado= usuarioRepository.save(u);
-                return mapper.convertValue(uCreado,UsuarioDto.class);
+                User uCreado= userRepository.save(u);
+                return mapper.convertValue(uCreado, UserDto.class);
             }
         }
         return null;
@@ -61,9 +63,9 @@ public class UsuarioService implements ICrudService<UsuarioDto, Usuario> {
 
     @Override
     public String eliminar(Integer id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        Optional<User> usuario = userRepository.findById(id);
         if(usuario.isPresent()){
-            usuarioRepository.deleteById(id);
+            userRepository.deleteById(id);
             return "Usuario eliminado correctamente";
         }
         else { throw new IllegalArgumentException("No se pudo eliminar. Usuario no encontrado");
@@ -71,17 +73,17 @@ public class UsuarioService implements ICrudService<UsuarioDto, Usuario> {
     }
 
     @Override
-    public Set<UsuarioDto> listartodos() {
-        List<Usuario> usuarios = usuarioRepository.findAll();
-        Set<UsuarioDto> usuariosDto = new HashSet<>();
-        for (Usuario u : usuarios) {
-            usuariosDto.add(mapper.convertValue(u, UsuarioDto.class));
+    public Set<UserDto> listartodos() {
+        List<User> usuarios = userRepository.findAll();
+        Set<UserDto> usuariosDto = new HashSet<>();
+        for (User u : usuarios) {
+            usuariosDto.add(mapper.convertValue(u, UserDto.class));
         }
         return usuariosDto;
     }
 
 
-    private Boolean compruebaReglaNegocioUsuario(Usuario u, Integer operacion ) {
+    private Boolean compruebaReglaNegocioUsuario(User u, Integer operacion ) {
 
         LocalDate fechaActual = LocalDate.now();
 
@@ -112,7 +114,7 @@ public class UsuarioService implements ICrudService<UsuarioDto, Usuario> {
 
 
     public Boolean existeUsuario(Integer id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        Optional<User> usuario = userRepository.findById(id);
         if(usuario.isPresent()){
             return true;
         }
@@ -120,11 +122,20 @@ public class UsuarioService implements ICrudService<UsuarioDto, Usuario> {
     }
 
     public Boolean existeDni(String dni) {
-        Optional<Usuario> usuario = usuarioRepository.findByDni(dni);
+        Optional<User> usuario = userRepository.findByDni(dni);
         if (usuario.isPresent()) {
             return true;
         }
         return false;
+    }
+
+
+    public UserDto buscarNombreUsuario(String username) {
+        Optional<User> usuario = userRepository.findByUsername(username);
+        if(usuario.isPresent()){
+            return mapper.convertValue(usuario, UserDto.class);
+        }
+        return null;
     }
 
 }

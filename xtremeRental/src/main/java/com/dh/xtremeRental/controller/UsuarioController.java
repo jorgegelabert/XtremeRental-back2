@@ -1,7 +1,6 @@
 package com.dh.xtremeRental.controller;
-import com.dh.xtremeRental.dto.ProductoDto;
-import com.dh.xtremeRental.dto.UsuarioDto;
-import com.dh.xtremeRental.service.UsuarioService;
+import com.dh.xtremeRental.dto.UserDto;
+import com.dh.xtremeRental.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,42 +17,42 @@ import java.util.stream.Collectors;
 public class UsuarioController {
 
         @Autowired
-        UsuarioService usuarioService;
+        UserService usuarioService;
     @CrossOrigin
         @PostMapping()
-        public ResponseEntity<UsuarioDto> crearUsuario(@RequestBody UsuarioDto usuarioDto){
-            UsuarioDto uDto= usuarioService.crear(usuarioDto);
+        public ResponseEntity<UserDto> crearUsuario(@RequestBody UserDto userDto){
+            UserDto uDto= usuarioService.crear(userDto);
             if(uDto != null){
                 return ResponseEntity.status(HttpStatus.OK).body(uDto);
             }
-            ResponseEntity<UsuarioDto> response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            ResponseEntity<UserDto> response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             return  response;
         }
 
     @CrossOrigin
         @GetMapping("/{id}")
-        public UsuarioDto buscarUsuarioId(@PathVariable Integer id){
+        public UserDto buscarUsuarioId(@PathVariable Integer id){
             return usuarioService.buscar(id);
         }
     @CrossOrigin
         @GetMapping()
-        public Set<UsuarioDto> listarUsuarios(){
+        public Set<UserDto> listarUsuarios(){
 
-        List<UsuarioDto> usuariosOrdenados = usuarioService.listartodos()
+        List<UserDto> usuariosOrdenados = usuarioService.listartodos()
                 .stream()
-                .sorted(Comparator.comparing(UsuarioDto::getId))
+                .sorted(Comparator.comparing(UserDto::getId))
                 .collect(Collectors.toList());
         return new LinkedHashSet<>(usuariosOrdenados);
 
         }
     @CrossOrigin
         @PutMapping()
-        public ResponseEntity<UsuarioDto> modificarUsuario(@RequestBody UsuarioDto usuarioDto){
-            UsuarioDto uDto= usuarioService.modificar(usuarioDto);
+        public ResponseEntity<UserDto> modificarUsuario(@RequestBody UserDto userDto){
+            UserDto uDto= usuarioService.modificar(userDto);
             if(uDto != null){
                 return ResponseEntity.status(HttpStatus.OK).body(uDto);
             }
-            ResponseEntity<UsuarioDto> response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            ResponseEntity<UserDto> response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             return  response;
         }
     @CrossOrigin
@@ -62,4 +61,18 @@ public class UsuarioController {
             String usuario = usuarioService.eliminar(id);
             return ResponseEntity.status(HttpStatus.OK).body(usuario);
         }
+
+    @CrossOrigin
+    @GetMapping("/usuario/{nombreUsuario}")
+    public UserDto buscarnombreUsuario(@PathVariable String nombreUsuario){
+        return usuarioService.buscarNombreUsuario(nombreUsuario);
+    }
+
+
+    @CrossOrigin
+    @GetMapping("/admin/{nombreUsuario}")
+    public UserDto asignaAdmin(@PathVariable String nombreUsuario){
+        return usuarioService.buscarNombreUsuario(nombreUsuario);
+    }
+
 }

@@ -21,7 +21,7 @@ public class AlquilerService implements ICrudService<AlquilerDto,Alquiler> {
     @Autowired
     private IAlquilerRepository alquilerRepository;
     @Autowired
-    private UsuarioService usuarioService;
+    private UserService usuarioService;
     @Autowired
     private ProductoService productoService;
     @Autowired

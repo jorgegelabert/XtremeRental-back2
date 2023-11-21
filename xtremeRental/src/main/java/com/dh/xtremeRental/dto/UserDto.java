@@ -1,5 +1,6 @@
 package com.dh.xtremeRental.dto;
 
+import com.dh.xtremeRental.User.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,13 +11,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class UsuarioDto {
+public class UserDto {
 
     private Integer id;
-    private String nombreDeUsuario;
+    private String username;
     private String email;
     private String nombre;
     private String apellido;
-    private String contrasena;
-    private Boolean esAdmin;
+    private String password;
+
+
 }

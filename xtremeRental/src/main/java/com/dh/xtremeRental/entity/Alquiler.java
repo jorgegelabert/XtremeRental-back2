@@ -1,5 +1,6 @@
 package com.dh.xtremeRental.entity;
 
+import com.dh.xtremeRental.User.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -38,7 +39,7 @@ public class Alquiler {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="usuario_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Usuario usuario;
+    private User usuario;
 
 
 

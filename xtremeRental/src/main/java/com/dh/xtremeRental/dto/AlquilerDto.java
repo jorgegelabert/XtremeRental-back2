@@ -19,7 +19,7 @@ public class AlquilerDto {
     private Integer id;
     private Double precioAlquilerProductoXHora;
     private ProductoDto producto;
-    private UsuarioDto usuario;
+    private UserDto usuario;
     @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     private LocalDate fechaAltaAlquiler;
     private LocalDate fechaFinAlquiler;
