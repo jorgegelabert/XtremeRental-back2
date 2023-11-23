@@ -1,5 +1,6 @@
 package com.dh.xtremeRental.service;
 
+import com.dh.xtremeRental.User.Role;
 import com.dh.xtremeRental.dto.UserDto;
 import com.dh.xtremeRental.User.User;
 import com.dh.xtremeRental.interfaces.ICrudService;
@@ -136,6 +137,19 @@ public class UserService implements ICrudService<UserDto, User> {
             return mapper.convertValue(usuario, UserDto.class);
         }
         return null;
+    }
+
+    public void cambiarRolUsuario(String username, Role nuevoRol){
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.cambiarRol(nuevoRol);
+            userRepository.save(user);
+        } else {
+            // El usuario con el nombre de usuario proporcionado no fue encontrado
+            // Puedes manejar este caso como mejor convenga en tu aplicación
+            throw new IllegalArgumentException("Usuario no encontrado con el nombre de usuario: " + username);
+        }
     }
 
     /*public String asignaAdmin(String username) {

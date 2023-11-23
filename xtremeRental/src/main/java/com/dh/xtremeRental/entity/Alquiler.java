@@ -23,12 +23,11 @@ public class Alquiler {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Double precioAlquilerProductoXHora;
     private LocalDate fechaAltaAlquiler;
     private LocalDate fechaFinAlquiler;
-    @JsonFormat(pattern = "HH:mm", shape = JsonFormat.Shape.STRING)
-    private LocalTime horaAltaAlquiler;
-    private LocalTime horaBajaAlquiler;
+//    @JsonFormat(pattern = "HH:mm", shape = JsonFormat.Shape.STRING)
+//    private LocalTime horaAltaAlquiler;
+//    private LocalTime horaBajaAlquiler;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="producto_id", nullable = false)

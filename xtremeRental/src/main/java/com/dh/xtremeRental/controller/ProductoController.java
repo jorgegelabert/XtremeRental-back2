@@ -80,9 +80,4 @@ public class ProductoController {
 
         return new LinkedHashSet<>(productosOrdenados);
     }
-
-
-
-
-
 }

@@ -12,8 +12,8 @@ import java.util.Optional;
 @Repository
 public interface IAlquilerRepository extends JpaRepository<Alquiler,Integer> {
 
-    @Query(value = "SELECT * FROM ALQUILER where horaAltaAlquiler=:horaAltaAlquiler and fechaAltaAlquiler=:fechaAltaAlquiler and usuario_id=:id", nativeQuery = true)
-    Optional<Alquiler> alquilerHoraDia(LocalDate fecha, LocalTime hora, Integer id);
+    @Query(value = "SELECT * FROM ALQUILER where fechaAltaAlquiler=:fechaAltaAlquiler and usuario_id=:id", nativeQuery = true)
+    Optional<Alquiler> alquilerDia(LocalDate fecha, Integer id);
 
     @Query(value = "SELECT * FROM ALQUILER where fechaAltaAlquiler=:fechaAltaAlquiler and producto_id=:id", nativeQuery = true)
     Optional<Alquiler> alquilerMismoDia(LocalDate fecha, Integer id);
