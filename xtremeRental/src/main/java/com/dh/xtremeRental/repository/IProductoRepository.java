@@ -20,4 +20,11 @@ public interface IProductoRepository extends JpaRepository<Producto,Integer> {
     @Query(value = "SELECT * FROM producto WHERE nombre_producto LIKE %:palabra% OR descripcion_producto LIKE %:palabra% OR categoria LIKE %:palabra% order by id asc"  , nativeQuery = true)
     List<Producto> findByPalabra(@Param("palabra") String palabra);
 
+//    @Query(value = "SELECT * FROM producto WHERE precio_por_hora LIKE %:precio%", nativeQuery = true)
+//    List<Producto> findByPrecio(@Param("precio") Double precio);
+
+    @Query(value = "SELECT * FROM producto WHERE precio_por_hora BETWEEN :precioMinimo AND :precioMaximo", nativeQuery = true)
+    List<Producto> findByPrecioInRange(@Param("precioMinimo") Double precioMinimo, @Param("precioMaximo") Double precioMaximo);
+
+
 }

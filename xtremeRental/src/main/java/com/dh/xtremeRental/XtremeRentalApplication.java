@@ -20,7 +20,5 @@ public class XtremeRentalApplication {
 	private static CreaAdmin creaAdmin;
 	public static void main(String[] args) {
 		SpringApplication.run(XtremeRentalApplication.class, args);
-
-
 	}
 }
