@@ -24,7 +24,7 @@ public class Producto {
         private String nombreProducto;
         private String descripcionProducto;
         private Integer stock;
-        private Double precioPorHora;
+        private Double precioPorHora; //Por día
         private String categoria;
 
         @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

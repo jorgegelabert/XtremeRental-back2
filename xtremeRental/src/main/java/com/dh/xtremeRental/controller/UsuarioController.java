@@ -1,9 +1,11 @@
 package com.dh.xtremeRental.controller;
+import com.dh.xtremeRental.User.Role;
 import com.dh.xtremeRental.dto.UserDto;
 import com.dh.xtremeRental.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
@@ -11,6 +13,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.dh.xtremeRental.User.Role.ADMIN;
+import static com.dh.xtremeRental.User.Role.USER;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -66,6 +71,18 @@ public class UsuarioController {
     @GetMapping("/usuario/{nombreUsuario}")
     public UserDto buscarnombreUsuario(@PathVariable String nombreUsuario){
         return usuarioService.buscarNombreUsuario(nombreUsuario);
+    }
+
+    @CrossOrigin
+    @PostMapping("/admin/{nombreUsuario}")
+    public void cambiarRolUsuarioAdmin(@PathVariable String nombreUsuario){
+        usuarioService.cambiarRolUsuario(nombreUsuario,ADMIN);
+    }
+
+    @CrossOrigin
+    @PostMapping("/user/{nombreUsuario}")
+    public void cambiarRolUsuarioUser(@PathVariable String nombreUsuario){
+        usuarioService.cambiarRolUsuario(nombreUsuario,USER);
     }
 
 

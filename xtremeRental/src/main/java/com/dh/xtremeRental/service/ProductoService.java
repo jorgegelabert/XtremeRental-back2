@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -54,6 +52,35 @@ public class ProductoService implements ICrudService<ProductoDto, Producto> {
         for (Producto p: productos) {
             productosDto.add(mapper.convertValue(p, ProductoDto.class));
         }
+        return productosDto;
+    }
+
+//    public Set<ProductoDto> buscarPorPrecio(Double precio) {
+//        List<Producto> productos = productoRepository.findByPrecio(precio);
+//        Set<ProductoDto> productosDto = new HashSet<>();
+//        for (Producto p: productos) {
+//            productosDto.add(mapper.convertValue(p, ProductoDto.class));
+//        }
+//        return productosDto;
+//    }
+
+    public List<ProductoDto> buscarPorPrecio(Double precio) {
+        // Define un rango de búsqueda considerando decimales
+        Double rango = 0.1; // Esto puede variar según la precisión que necesites
+
+        // Calcular los límites del rango
+        Double precioMinimo = precio - rango;
+        Double precioMaximo = precio + rango;
+
+        // Realizar la búsqueda por un rango de precios en la base de datos
+        List<Producto> productos = productoRepository.findByPrecioInRange(precioMinimo, precioMaximo);
+
+        // Mapear los productos a DTOs
+        List<ProductoDto> productosDto = productos.stream()
+                .map(producto -> mapper.convertValue(producto, ProductoDto.class))
+                .sorted(Comparator.comparing(ProductoDto::getId))
+                .collect(Collectors.toList());
+
         return productosDto;
     }
 

@@ -54,6 +54,18 @@ public class ProductoController {
     }
 
     @CrossOrigin
+    @GetMapping("/busquedaPorPrecio/{precio}")
+    public Set<ProductoDto> buscarProductoPrecio(@PathVariable Double precio){
+
+        List<ProductoDto> productosOrdenados = productoService.buscarPorPrecio(precio)
+                .stream()
+                .sorted(Comparator.comparing(ProductoDto::getId))
+                .collect(Collectors.toList());
+
+        return new LinkedHashSet<>(productosOrdenados);
+    }
+
+    @CrossOrigin
     @PutMapping()
     public ResponseEntity<ProductoDto> modificarProducto(@RequestBody ProductoDto productoDto){
         ProductoDto pDto= productoService.modificar(productoDto);
@@ -80,9 +92,4 @@ public class ProductoController {
 
         return new LinkedHashSet<>(productosOrdenados);
     }
-
-
-
-
-
 }

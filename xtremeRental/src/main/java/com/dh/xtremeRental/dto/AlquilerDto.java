@@ -23,7 +23,7 @@ public class AlquilerDto {
     @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     private LocalDate fechaAltaAlquiler;
     private LocalDate fechaFinAlquiler;
-    @JsonFormat(pattern = "HH:mm", shape = JsonFormat.Shape.STRING)
-    private LocalTime horaAltaAlquiler;
-    private LocalTime horaBajaAlquiler;
+//    @JsonFormat(pattern = "HH:mm", shape = JsonFormat.Shape.STRING)
+//    private LocalTime horaAltaAlquiler;
+//    private LocalTime horaBajaAlquiler;
 }

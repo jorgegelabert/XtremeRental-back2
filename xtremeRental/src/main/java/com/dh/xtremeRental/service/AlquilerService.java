@@ -127,8 +127,8 @@ public class AlquilerService implements ICrudService<AlquilerDto,Alquiler> {
         }
     }
 
-    Boolean alquilerNoDisponible(LocalDate fecha, LocalTime hora, Integer id){
-        Optional<Alquiler> alquiler = alquilerRepository.alquilerHoraDia(fecha,hora,id);
+    Boolean alquilerNoDisponible(LocalDate fecha, Integer id){
+        Optional<Alquiler> alquiler = alquilerRepository.alquilerDia(fecha,id);
         if(alquiler.isPresent()){
             return true;
         }

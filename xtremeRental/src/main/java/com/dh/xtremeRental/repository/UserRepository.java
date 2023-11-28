@@ -1,9 +1,11 @@
 package com.dh.xtremeRental.repository;
 
+import com.dh.xtremeRental.User.Role;
 import com.dh.xtremeRental.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -16,10 +18,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Query(value = "SELECT * FROM USUARIO where dni like  %:string% ", nativeQuery = true)
     Optional<User> findByDni(String string);
 
-    //@Modifying
-    //@Query("update User u set u.role = ADMIN where u.username = :username")
-    //void asignaAdmin2( String username);
+//    @Query("SELECT COUNT(u) FROM USUARIO u WHERE u.role = :role")
+//    Integer countByRole(@Param("role") Role role);
 
-
-    //User findByUsername2(String username);
 }
