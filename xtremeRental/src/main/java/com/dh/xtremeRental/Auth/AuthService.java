@@ -48,7 +48,6 @@ public class AuthService {
             .email(request.getEmail())
             .role(Role.USER)
             .build();
-
         userRepository.save(user);
 
         User usuario = userRepository.findByUsername(request.getUsername()).orElseThrow();

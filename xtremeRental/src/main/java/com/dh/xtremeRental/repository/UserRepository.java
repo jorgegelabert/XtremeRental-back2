@@ -17,7 +17,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     Optional<User> findByDni(String string);
 
     //@Modifying
-    //@Query("update User u set u.role = ADMIN where u.username = :date")
+    //@Query("update User u set u.role = ADMIN where u.username = :username")
     //void asignaAdmin2( String username);
 
 

@@ -70,7 +70,7 @@ public class UsuarioController {
 
 
     /*@CrossOrigin
-    @GetMapping("/admin/{nombreUsuario}")
+    @PostMapping("/admin/{nombreUsuario}")
     public String asignaAdmin(@PathVariable String nombreUsuario){
         return usuarioService.asignaAdmin(nombreUsuario);
     }*/

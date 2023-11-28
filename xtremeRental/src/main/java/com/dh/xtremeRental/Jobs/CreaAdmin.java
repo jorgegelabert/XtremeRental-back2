@@ -1,34 +1,42 @@
 package com.dh.xtremeRental.Jobs;
 
-import com.dh.xtremeRental.Auth.AuthResponse;
+
 import com.dh.xtremeRental.User.Role;
 import com.dh.xtremeRental.User.User;
-import com.dh.xtremeRental.dto.UserDto;
 import com.dh.xtremeRental.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
+
+@Getter
+@Setter
 @AllArgsConstructor
-public  class CreaAdmin {
-
-    private final PasswordEncoder passwordEncoder=null;
-    private final UserRepository userRepository=null;
-
-    public void creaUsuarioAdmin(UserDto userAdmin){
+@Component
+public class CreaAdmin implements CommandLineRunner {
 
 
-    User user = User.builder()
-            .id(userAdmin.getId())
-            .username(userAdmin.getUsername())
-            .password(passwordEncoder.encode( userAdmin.getPassword()))
-            .nombre(userAdmin.getNombre())
-            .apellido(userAdmin.getApellido())
-            .email(userAdmin.getEmail())
-            .role(Role.USER)
-            .build();
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
-    userRepository.save(user);
-    }
+
+    public void run (String... args) throws Exception {
+
+        if (userRepository.count() == 0){
+
+                User user = User.builder()
+                        .id(1)
+                        .username("admin")
+                        .password(passwordEncoder.encode("Admin1234"))
+                        .nombre("Administrador")
+                        .apellido("Perez")
+                        .email("administradorperez@gmail.com")
+                        .role(Role.ADMIN)
+                        .build();
+
+                userRepository.save(user);
+    }}
 }

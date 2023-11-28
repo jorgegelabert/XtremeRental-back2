@@ -85,11 +85,12 @@ public class UserService implements ICrudService<UserDto, User> {
 
     private Boolean compruebaReglaNegocioUsuario(User u, Integer operacion ) {
 
-        LocalDate fechaActual = LocalDate.now();
-
-//        if (u.getId() != null && operacion==1) {
-//            throw new IllegalArgumentException("No se puede Ingresar un Id");
-//        } else if (u.getId() == null && operacion==2) {
+ if (u.getId() != null && operacion==1) {
+throw new IllegalArgumentException("No se puede Ingresar un Id");
+ } else if ((u.getRole().equals("ADMIN")) && operacion==1) {
+            throw new IllegalArgumentException("No te hagas el vivo. No se puede crear un usuario admin");
+        }
+ //else if (u.getId() == null && operacion==2) {
 //            throw new IllegalArgumentException("Para modificar un elemento es necesario el Id");
 //        } else if (u.getApellido() == null || u.getApellido().isEmpty()) {
 //            throw new IllegalArgumentException("El campo apellido no puede ser null ni estar vacio");

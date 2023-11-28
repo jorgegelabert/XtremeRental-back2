@@ -1,14 +1,11 @@
 package com.dh.xtremeRental.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
 
@@ -37,6 +34,13 @@ public class Producto {
         @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
         private Set<Alquiler> alquileres;
 
-        // Otros getters y setters
+        @ManyToMany
+        @JoinTable(
+                name = "producto_subcategoria",
+                joinColumns = @JoinColumn(name = "producto_id"),
+                inverseJoinColumns = @JoinColumn(name = "subcategoria_id")
+        )
+        private Set<SubCategoria> subcategorias;
+
 }
 

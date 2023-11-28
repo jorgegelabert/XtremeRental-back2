@@ -1,6 +1,7 @@
 package com.dh.xtremeRental.dto;
 
 import com.dh.xtremeRental.entity.Imagen;
+import com.dh.xtremeRental.entity.SubCategoria;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,5 +25,5 @@ public class ProductoDto {
     private Integer stock;
     private Double precioPorHora;
     private List<ImagenDto> imagenes;
-    private String categoria;
+    private Set<SubCategoria> subcategorias;
 }
