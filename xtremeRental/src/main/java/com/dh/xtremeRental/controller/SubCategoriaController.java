@@ -33,7 +33,7 @@ public class SubCategoriaController {
 
     @CrossOrigin
     @GetMapping("/{id}")
-    public SubCategoriaDto buscarUsuarioId(@PathVariable Integer id) {
+    public SubCategoriaDto buscarCategoriaId(@PathVariable Integer id) {
         return subCategoriaService.buscar(id);
     }
 

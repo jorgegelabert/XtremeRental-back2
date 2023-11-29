@@ -3,8 +3,10 @@ package com.dh.xtremeRental.service;
 
 import com.dh.xtremeRental.dto.ProductoDto;
 import com.dh.xtremeRental.entity.Producto;
+import com.dh.xtremeRental.entity.SubCategoria;
 import com.dh.xtremeRental.interfaces.ICrudService;
 import com.dh.xtremeRental.repository.IProductoRepository;
+import com.dh.xtremeRental.repository.ISubCategoriaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,9 @@ public class ProductoService implements ICrudService<ProductoDto, Producto> {
 
     @Autowired
     private IProductoRepository productoRepository;
+
+    @Autowired
+    private ISubCategoriaRepository iSubCategoriaRepository;
 
     @Autowired
     ObjectMapper mapper;
@@ -119,6 +124,43 @@ public class ProductoService implements ICrudService<ProductoDto, Producto> {
         return productosDto;
     }
 
+    public ProductoDto asignaSubcategoria(Integer idProducto, Integer idCategoria){
+        Optional<Producto> producto = productoRepository.findById(idProducto);
+        if(producto.isPresent()){
+            Optional<SubCategoria> subcategoria = iSubCategoriaRepository.findById(idCategoria);
+            if(subcategoria.isPresent()){
+                Producto     produc = producto.get();
+                SubCategoria subcat = subcategoria.get();
+                produc.getSubcategorias().add(subcat);
+                productoRepository.save(produc);
+                return mapper.convertValue(produc,ProductoDto.class);
+            }else {throw new IllegalArgumentException("No se ha encontrado la subcategoria");}
+        } else {throw new IllegalArgumentException("No se ha encontrado el producto");}
+    }
+
+
+    public ProductoDto borraSubcategoria(Integer idproducto, Integer idcategoria) {
+        Optional<Producto> producto = productoRepository.findById(idproducto);
+        if(producto.isPresent()){
+            Optional<SubCategoria> subcategoria = iSubCategoriaRepository.findById(idcategoria);
+            if(subcategoria.isPresent()){
+                productoRepository.deleteByProductoSubcategoria(idproducto,idcategoria);
+                    Optional<Producto> p = productoRepository.findById(idproducto);
+                    return mapper.convertValue(p,ProductoDto.class);
+            }else {throw new IllegalArgumentException("No se ha encontrado la subcategoria");}
+        } else {throw new IllegalArgumentException("No se ha encontrado el producto");}
+    }
+
+
+    public Set<ProductoDto> buscarPorSubcategoria(Integer subcat) {
+        List<Producto> productos = productoRepository.findBySubcategoria(subcat);
+        Set<ProductoDto> productosDto = new HashSet<>();
+        for (Producto p: productos) {
+            productosDto.add(mapper.convertValue(p, ProductoDto.class));
+        }
+        return productosDto;
+    }
+
 
     private Boolean compruebaReglaNegocioProducto(Producto p, Integer operacion ) {
 
@@ -165,6 +207,7 @@ public class ProductoService implements ICrudService<ProductoDto, Producto> {
         }
         return false;
     }
+
 
 
 }

@@ -17,5 +17,5 @@ public class SubCategoriaDto {
 
     private Integer id;
     private String nombre;
-    private Set<Producto> productos;
+
 }

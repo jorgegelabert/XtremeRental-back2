@@ -1,8 +1,11 @@
 package com.dh.xtremeRental.controller;
 
 import com.dh.xtremeRental.dto.ProductoDto;
+import com.dh.xtremeRental.dto.SubCategoriaDto;
+import com.dh.xtremeRental.entity.SubCategoria;
 import com.dh.xtremeRental.service.ImagenService;
 import com.dh.xtremeRental.service.ProductoService;
+import com.dh.xtremeRental.service.SubCategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 public class ProductoController {
     @Autowired
     ProductoService productoService;
+
 
     @Autowired
     ImagenService imagenService;
@@ -92,4 +96,38 @@ public class ProductoController {
 
         return new LinkedHashSet<>(productosOrdenados);
     }
+
+
+    @CrossOrigin
+    @PostMapping("/subcategoria/{idproducto}/{idcategoria}")
+        public ResponseEntity<ProductoDto> asignaSubcategoria (@PathVariable Integer idproducto, @PathVariable Integer idcategoria){
+        ProductoDto pActualizado = productoService.asignaSubcategoria(idproducto,idcategoria);
+        if(pActualizado != null){
+            return ResponseEntity.status(HttpStatus.OK).body(pActualizado);
+        }
+        return null;
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/subcategoria/{idproducto}/{idcategoria}")
+    public ResponseEntity<ProductoDto> borraSubcategoria (@PathVariable Integer idproducto, @PathVariable Integer idcategoria){
+        ProductoDto pActualizado = productoService.borraSubcategoria(idproducto,idcategoria);
+        if(pActualizado != null){
+            return ResponseEntity.status(HttpStatus.OK).body(pActualizado);
+        }
+        return null;
+    }
+
+    @CrossOrigin
+    @GetMapping("/subcategoria/{idSubcategoria}")
+    public Set<ProductoDto> buscarProductoSubcategoria(@PathVariable Integer idSubcategoria){
+
+        List<ProductoDto> productosOrdenados = productoService.buscarPorSubcategoria(idSubcategoria)
+                .stream()
+                .sorted(Comparator.comparing(ProductoDto::getId))
+                .collect(Collectors.toList());
+
+        return new LinkedHashSet<>(productosOrdenados);
+    }
+
 }

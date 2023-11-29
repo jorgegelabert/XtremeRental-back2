@@ -1,11 +1,14 @@
 package com.dh.xtremeRental.entity;
 
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -34,13 +37,12 @@ public class Producto {
         @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
         private Set<Alquiler> alquileres;
 
-        @ManyToMany
-        @JoinTable(
-                name = "producto_subcategoria",
-                joinColumns = @JoinColumn(name = "producto_id"),
-                inverseJoinColumns = @JoinColumn(name = "subcategoria_id")
-        )
-        private Set<SubCategoria> subcategorias;
 
+       @ManyToMany
+       @JoinTable(
+               name = "producto_subcategoria",
+               joinColumns = @JoinColumn(name = "producto_id"),
+               inverseJoinColumns = @JoinColumn(name = "subcategoria_id")
+       )
+       private Set<SubCategoria> subcategorias = new HashSet<>();
 }
-
