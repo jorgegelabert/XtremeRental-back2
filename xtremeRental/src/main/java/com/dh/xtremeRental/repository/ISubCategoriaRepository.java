@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface ISubCategoriaRepository extends JpaRepository<SubCategoria,Integer> {
+    Integer countBy();
 
     @Query(value = "SELECT * FROM subcategoria where id=:id ", nativeQuery = true)
     Optional<SubCategoria> findById(Integer id);

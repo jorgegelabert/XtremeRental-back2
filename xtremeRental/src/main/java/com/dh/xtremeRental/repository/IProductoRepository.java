@@ -15,6 +15,8 @@ import java.util.Optional;
 @Repository
 public interface IProductoRepository extends JpaRepository<Producto,Integer> {
 
+    Integer countBy();
+
     @Query(value = "SELECT * FROM producto where id=:id ", nativeQuery = true)
     Optional<Producto> findById(Integer id);
 

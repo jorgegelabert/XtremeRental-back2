@@ -22,6 +22,7 @@ public class ProductoDto {
     private Integer id;
     private String nombreProducto;
     private String descripcionProducto;
+    private String categoria;
     private Integer stock;
     private Double precioPorHora;
     private List<ImagenDto> imagenes;
