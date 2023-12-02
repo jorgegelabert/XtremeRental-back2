@@ -1,25 +1,25 @@
 package com.dh.xtremeRental.User;
 
+import com.dh.xtremeRental.entity.Alquiler;
+import com.dh.xtremeRental.entity.Favorito;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Getter
+@Setter
 @Table(name="usuario", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 public class User implements UserDetails {
     @Id
@@ -41,6 +41,11 @@ public class User implements UserDetails {
     String password;
     @Enumerated(EnumType.STRING) 
     Role role;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Favorito> favoritos;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -65,5 +70,10 @@ public class User implements UserDetails {
 
     public void cambiarRol(Role nuevoRol) {
         this.role = nuevoRol;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, apellido, nombre, email, password, role);
     }
 }
