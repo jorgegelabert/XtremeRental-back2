@@ -1,9 +1,12 @@
 package com.dh.xtremeRental.service;
 
+import com.dh.xtremeRental.User.User;
 import com.dh.xtremeRental.dto.AlquilerDto;
+import com.dh.xtremeRental.dto.UserDto;
 import com.dh.xtremeRental.entity.Alquiler;
 import com.dh.xtremeRental.interfaces.ICrudService;
 import com.dh.xtremeRental.repository.IAlquilerRepository;
+import com.dh.xtremeRental.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,9 @@ import java.util.Set;
 public class AlquilerService implements ICrudService<AlquilerDto,Alquiler> {
     @Autowired
     private IAlquilerRepository alquilerRepository;
+
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private UserService usuarioService;
     @Autowired
@@ -87,6 +93,24 @@ public class AlquilerService implements ICrudService<AlquilerDto,Alquiler> {
     }
 
 
+
+    public Set<AlquilerDto> alquilerXUsername(String username) {
+        Optional<User> usuario = userRepository.findByUsername(username);
+        User user = usuario.get();
+        if (usuario.isPresent()) {
+            List<Alquiler> alquileres = alquilerRepository.findByUserId(user.getId());
+            Set<AlquilerDto> alquileresDto = new HashSet<>();
+            for (Alquiler a : alquileres) {
+
+                alquileresDto.add(mapper.convertValue(a, AlquilerDto.class));
+            }
+            return alquileresDto;
+        }else return  null;
+    }
+
+
+
+
     private Boolean compruebaReglaNegocioAlquiler(Alquiler a, Integer operacion) {
 
 
@@ -96,12 +120,8 @@ public class AlquilerService implements ICrudService<AlquilerDto,Alquiler> {
             throw new IllegalArgumentException("No se puede Ingresar un Id");
         } else if (a.getId() == null && operacion == 2) {
             throw new IllegalArgumentException("Para modificar un elemento es necesario el Id");
-        }else if(a.getProducto()== null){
-            throw new IllegalArgumentException("El campo producto no puede ser null ni estar vacio");
         }else if(a.getUsuario()== null){
             throw new IllegalArgumentException("El campo usuario no puede ser null ni estar vacio");
-        }else if (a.getProducto().getId() < 1  ) {
-            throw new IllegalArgumentException("El campo id producto no puede ser negativo");
         }else if (a.getUsuario().getId() < 1  ) {
             throw new IllegalArgumentException("El campo id usuario no puede ser negativo");
 //        }else if(a.getHora()== null){

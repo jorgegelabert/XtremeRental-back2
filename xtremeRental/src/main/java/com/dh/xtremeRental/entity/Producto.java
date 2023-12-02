@@ -34,8 +34,8 @@ public class Producto {
         @JoinColumn(name="producto_id", referencedColumnName ="id" )
         private List<Imagen> imagenes;
 
-        @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-        private Set<Alquiler> alquileres;
+        //@OneToMany(mappedBy = "producto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+        //private Set<Alquiler> alquileres;
 
 
        @ManyToMany

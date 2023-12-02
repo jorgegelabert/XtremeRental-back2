@@ -11,6 +11,10 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,21 +29,20 @@ public class Alquiler {
     private Integer id;
     private LocalDate fechaAltaAlquiler;
     private LocalDate fechaFinAlquiler;
-//    @JsonFormat(pattern = "HH:mm", shape = JsonFormat.Shape.STRING)
-//    private LocalTime horaAltaAlquiler;
-//    private LocalTime horaBajaAlquiler;
-
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="producto_id", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Producto producto;
-
+    private Double precioTotal;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="usuario_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User usuario;
 
+    @ManyToMany
+    @JoinTable(
+            name = "alquiler_producto",
+            joinColumns = @JoinColumn(name = "alquiler_id"),
+            inverseJoinColumns = @JoinColumn(name = "producto_id")
+    )
+    private Set<Producto> producto = new HashSet<>();
 
 
 }
