@@ -1,6 +1,7 @@
 package com.dh.xtremeRental.User;
 
 import com.dh.xtremeRental.entity.Alquiler;
+import com.dh.xtremeRental.entity.Favorito;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -15,9 +16,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.*;
 
 @Data
 @Builder
@@ -50,6 +52,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "usuario" , cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Alquiler> alquileres = new HashSet<>();
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Favorito> favoritos;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
       return List.of(new SimpleGrantedAuthority((role.name())));
@@ -73,5 +79,10 @@ public class User implements UserDetails {
 
     public void cambiarRol(Role nuevoRol) {
         this.role = nuevoRol;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, apellido, nombre, email, password, role);
     }
 }

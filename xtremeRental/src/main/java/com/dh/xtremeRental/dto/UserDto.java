@@ -1,6 +1,7 @@
 package com.dh.xtremeRental.dto;
 
 import com.dh.xtremeRental.User.Role;
+import com.dh.xtremeRental.entity.Favorito;
 import com.dh.xtremeRental.entity.Alquiler;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class UserDto {
     private String apellido;
     private String password;
     private Role role;
+    private Set<Favorito> favoritos;
     private Set<Alquiler> alquileres;
 
 

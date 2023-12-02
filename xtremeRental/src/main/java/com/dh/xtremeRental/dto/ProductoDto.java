@@ -1,5 +1,6 @@
 package com.dh.xtremeRental.dto;
 
+import com.dh.xtremeRental.entity.Favorito;
 import com.dh.xtremeRental.entity.Imagen;
 import com.dh.xtremeRental.entity.SubCategoria;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -27,4 +28,5 @@ public class ProductoDto {
     private Double precioPorHora;
     private List<ImagenDto> imagenes;
     private Set<SubCategoria> subcategorias;
+    private Set<Favorito> favoritos;
 }

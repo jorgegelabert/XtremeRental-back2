@@ -10,7 +10,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User,Integer> {
-    Optional<User> findByUsername(String username);
+
+    @Query(value = "SELECT * FROM USUARIO where username like %:username%", nativeQuery = true)
+    Optional<User> findByUsername(@Param("username") String username);
 
     @Query(value = "update USUARIO set rol=admin where nombre_de_usuario like  :string ", nativeQuery = true)
     Optional<User> asignaAdmin(String string);
