@@ -4,6 +4,7 @@ package com.dh.xtremeRental.service;
 import com.dh.xtremeRental.User.User;
 import com.dh.xtremeRental.dto.FavoritoDto;
 import com.dh.xtremeRental.dto.SubCategoriaDto;
+import com.dh.xtremeRental.entity.Alquiler;
 import com.dh.xtremeRental.entity.Favorito;
 import com.dh.xtremeRental.entity.Producto;
 import com.dh.xtremeRental.entity.SubCategoria;
@@ -82,7 +83,12 @@ public class FavoritoService implements ICrudService<FavoritoDto, Favorito> {
 
     @Override
     public String eliminar(Integer id) {
-        return null;
+        Optional<Favorito> favorito = favoritoRepository.findById(id);
+        if (favorito.isPresent()) {
+            favoritoRepository.deleteById(id);
+            return "Favorito eliminado correctamente";
+        } else { throw new IllegalArgumentException("No se pudo eliminar. Favorito no encontrado");
+        }
     }
 
     @Override

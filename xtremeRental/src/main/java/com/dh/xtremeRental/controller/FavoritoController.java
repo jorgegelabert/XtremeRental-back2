@@ -36,4 +36,11 @@ public class FavoritoController {
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         return favoritosOrdenados;
     }
+
+    @CrossOrigin
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarFavorito (@PathVariable Integer id){
+        String favorito = favoritoService.eliminar(id);
+        return ResponseEntity.status(HttpStatus.OK).body(favorito);
+    }
 }
