@@ -46,7 +46,7 @@ public class FavoritoService implements ICrudService<FavoritoDto, Favorito> {
     private IFavoritoRespository favoritoRepository;
 
 
-    public void crearFav(Integer idproducto, String username) {
+    public Integer crearFav(Integer idproducto, String username) {
         Optional<User> userOptional = userRepository.findByUsername(username);
         Optional<Producto> productoOptional = productoRepository.findById(idproducto);
 
@@ -60,9 +60,11 @@ public class FavoritoService implements ICrudService<FavoritoDto, Favorito> {
 
             usuario.getFavoritos().add(favorito);
 
-            favoritoRepository.save(favorito);
+            Favorito favoritoGuardado = favoritoRepository.save(favorito);
+            return favoritoGuardado.getId();
         } else {
             // Manejar si no se encuentra el usuario o el producto
+            return null;
         }
     }
 

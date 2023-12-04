@@ -22,9 +22,9 @@ public class FavoritoController {
 
     @CrossOrigin
     @PostMapping("/{idproducto}/{username}")
-    public ResponseEntity<String> crearFavorito (@PathVariable Integer idproducto, @PathVariable String username){
-        favoritoService.crearFav(idproducto,username);
-        return ResponseEntity.ok("Producto marcado como favorito para el usuario con éxito");
+    public ResponseEntity<Integer> crearFavorito (@PathVariable Integer idproducto, @PathVariable String username){
+        Integer favoritoId = favoritoService.crearFav(idproducto,username);
+        return new ResponseEntity<>(favoritoId, HttpStatus.OK);
     }
 
     @CrossOrigin
