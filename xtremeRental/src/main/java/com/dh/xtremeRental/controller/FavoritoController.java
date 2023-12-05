@@ -38,9 +38,9 @@ public class FavoritoController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarFavorito (@PathVariable Integer id){
-        String favorito = favoritoService.eliminar(id);
+    @DeleteMapping("/{idproducto}/{username}")
+    public ResponseEntity<?> eliminarFavorito (@PathVariable Integer idproducto, @PathVariable String username){
+        String favorito = favoritoService.eliminarFav(idproducto,username);
         return ResponseEntity.status(HttpStatus.OK).body(favorito);
     }
 }

@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -54,6 +55,15 @@ public class FavoritoService implements ICrudService<FavoritoDto, Favorito> {
             User usuario = userOptional.get();
             Producto producto = productoOptional.get();
 
+            // Verificar si ya existe un favorito con el mismo producto y usuario
+            boolean existeFavorito = usuario.getFavoritos().stream()
+                    .anyMatch(fav -> fav.getProducto().equals(producto));
+
+            if (existeFavorito) {
+                // Manejar si ya existe un favorito con el mismo producto y usuario
+                return null;
+            }
+
             Favorito favorito = new Favorito();
             favorito.setUsuario(usuario);
             favorito.setProducto(producto);
@@ -65,6 +75,23 @@ public class FavoritoService implements ICrudService<FavoritoDto, Favorito> {
         } else {
             // Manejar si no se encuentra el usuario o el producto
             return null;
+        }
+    }
+
+
+    @Transactional
+    public String eliminarFav(Integer idproducto, String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        Optional<Producto> productoOptional = productoRepository.findById(idproducto);
+
+        if (userOptional.isPresent() && productoOptional.isPresent()) {
+            Integer usuario = userOptional.get().getId();
+            Integer producto = productoOptional.get().getId();
+
+            favoritoRepository.deleteFav(usuario, producto);
+            return "Favorito eliminado correctamente";
+        } else {
+            throw new IllegalArgumentException("No se pudo eliminar. Favorito no encontrado");
         }
     }
 
@@ -85,13 +112,9 @@ public class FavoritoService implements ICrudService<FavoritoDto, Favorito> {
 
     @Override
     public String eliminar(Integer id) {
-        Optional<Favorito> favorito = favoritoRepository.findById(id);
-        if (favorito.isPresent()) {
-            favoritoRepository.deleteById(id);
-            return "Favorito eliminado correctamente";
-        } else { throw new IllegalArgumentException("No se pudo eliminar. Favorito no encontrado");
-        }
+        return null;
     }
+
 
     @Override
     public Set<FavoritoDto> listartodos() {
