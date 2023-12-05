@@ -54,7 +54,7 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Favorito> favoritos;
+    private Set<Favorito> favoritos = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

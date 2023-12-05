@@ -38,6 +38,18 @@ public class FavoritoController {
     }
 
     @CrossOrigin
+    @GetMapping("/{username}")
+    public Set<FavoritoDto> listarFavoritosPorUsuario(@PathVariable("username") String username) {
+        Set<FavoritoDto> favoritosOrdenados = favoritoService.listartodos()
+                .stream()
+                .filter(favorito -> username.equals(favorito.getUsuario().getUsername()))
+                .sorted(Comparator.comparing(FavoritoDto::getId))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        return favoritosOrdenados;
+    }
+
+
+    @CrossOrigin
     @DeleteMapping("/{idproducto}/{username}")
     public ResponseEntity<?> eliminarFavorito (@PathVariable Integer idproducto, @PathVariable String username){
         String favorito = favoritoService.eliminarFav(idproducto,username);

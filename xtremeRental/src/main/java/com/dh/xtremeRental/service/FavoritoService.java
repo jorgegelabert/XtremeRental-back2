@@ -3,6 +3,7 @@ package com.dh.xtremeRental.service;
 
 import com.dh.xtremeRental.User.User;
 import com.dh.xtremeRental.dto.FavoritoDto;
+import com.dh.xtremeRental.dto.ProductoDto;
 import com.dh.xtremeRental.dto.SubCategoriaDto;
 import com.dh.xtremeRental.entity.Alquiler;
 import com.dh.xtremeRental.entity.Favorito;
@@ -18,10 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FavoritoService implements ICrudService<FavoritoDto, Favorito> {
@@ -134,4 +133,75 @@ public class FavoritoService implements ICrudService<FavoritoDto, Favorito> {
         }
         return favoritosDtos;
     }
+
+    public Set<FavoritoDto> listarPorUsuario(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if (userOptional.isPresent()) {
+            User usuario = userOptional.get();
+
+            return usuario.getFavoritos().stream()
+                    .map(this::convertToFavoritoDto) // Método para convertir Favorito a FavoritoDto
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+        } else {
+            // Manejar si no se encuentra el usuario
+            throw new IllegalArgumentException("Usuario no encontrado: " + username);
+            // Puedes definir tu propia excepción para manejar este caso
+        }
+    }
+
+
+
+    public Set<FavoritoDto> listarFavoritosPorUsuario(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if (userOptional.isPresent()) {
+            User usuario = userOptional.get();
+
+            Set<FavoritoDto> favoritosPorUsuario = usuario.getFavoritos().stream()
+                    .map(favorito -> convertToFavoritoDto(favorito)) // Método para convertir Favorito a FavoritoDto
+                    .sorted(Comparator.comparing(FavoritoDto::getId))
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+
+            return favoritosPorUsuario;
+        } else {
+            // Manejar si no se encuentra el usuario
+            return Collections.emptySet(); // O podrías devolver null o un mensaje de error, según tu lógica de manejo de errores
+        }
+    }
+
+    private FavoritoDto convertToFavoritoDto(Favorito favorito) {
+        FavoritoDto favoritoDto = new FavoritoDto();
+        favoritoDto.setId(favorito.getId());
+
+        // Si tu entidad Favorito tiene una relación con Usuario y Producto, puedes obtener los datos aquí
+        // Asumiendo que Favorito tiene un campo usuario y producto y que deseas devolver los ID en FavoritoDto
+        if (favorito.getUsuario() != null) {
+            favoritoDto.setId(favorito.getUsuario().getId()); // Reemplaza esto con el atributo que representa el ID del usuario en FavoritoDto
+            // Puedes agregar más detalles del usuario aquí si los necesitas
+        }
+        if (favorito.getProducto() != null) {
+            favoritoDto.setId(favorito.getProducto().getId()); // Reemplaza esto con el atributo que representa el ID del producto en FavoritoDto
+            // Puedes agregar más detalles del producto aquí si los necesitas
+        }
+
+        return favoritoDto;
+    }
+
+    public FavoritoDto asignaProducto(Integer idFav, Integer idProducto){
+        Optional<Favorito> favorito = favoritoRepository.findById(idFav);
+        if(favorito.isPresent()){
+            Optional<Producto> producto = productoRepository.findById(idProducto);
+            if(producto.isPresent()){
+                Favorito     fav = favorito.get();
+                Producto     produc = producto.get();
+                fav.setProducto(produc);
+                favoritoRepository.save(fav);
+                return mapper.convertValue(fav,FavoritoDto.class);
+            }else {throw new IllegalArgumentException("No se ha encontrado el producto");}
+        } else {throw new IllegalArgumentException("No se ha encontrado el favorito");}
+    }
+
+
+
 }
