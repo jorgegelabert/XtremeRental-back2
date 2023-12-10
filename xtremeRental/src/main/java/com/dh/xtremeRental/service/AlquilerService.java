@@ -8,8 +8,10 @@ import com.dh.xtremeRental.interfaces.ICrudService;
 import com.dh.xtremeRental.repository.IAlquilerRepository;
 import com.dh.xtremeRental.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.dh.xtremeRental.service.EmailService;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -20,6 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class AlquilerService implements ICrudService<AlquilerDto,Alquiler> {
     @Autowired
     private IAlquilerRepository alquilerRepository;
@@ -33,14 +36,26 @@ public class AlquilerService implements ICrudService<AlquilerDto,Alquiler> {
     @Autowired
     ObjectMapper mapper;
 
+    private final EmailService emailService;
+
 
     @Override
     public AlquilerDto crear(AlquilerDto alquilerDto) {
         Alquiler a = mapper.convertValue(alquilerDto,Alquiler.class);
+        User usuario = userRepository.getById(a.getUsuario().getId());
+        String nombre= usuario.getNombre();
+        String apellido= usuario.getApellido();
+        String email= usuario.getEmail();
+        LocalDate fechainicio=alquilerDto.getFechaAltaAlquiler();
+        LocalDate fechafin=alquilerDto.getFechaFinAlquiler();
+        Double costoTotal=alquilerDto.getPrecioTotal();
+
         Integer operacion=1;
         Boolean validado = compruebaReglaNegocioAlquiler(a,operacion);
         if(validado){
             Alquiler alquilerCreado= alquilerRepository.save(a);
+            String bodyMail= ( "Hola " + nombre + " " + apellido + ", tu reserva fue realizada con éxito! \nLas fechas de tu reserva son: \n- Fecha de inicio: " + fechainicio + " \n- Fecha de fin: " + fechafin + " \nEl costo total del alquiler es : $" + costoTotal + ". \nRecuerda que puedes iniciar sesión en http://xtremerental.ddns.net/  ");
+            emailService.sendEmail(email, "XtremeRental - Confirmacion de Reserva",bodyMail);
             return mapper.convertValue(alquilerCreado, AlquilerDto.class);
         }else{
             throw new IllegalArgumentException("No se pudo crear el alquiler");

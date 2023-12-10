@@ -6,6 +6,7 @@ import com.dh.xtremeRental.Jwt.JwtService;
 import com.dh.xtremeRental.User.Role;
 import com.dh.xtremeRental.User.User;
 import com.dh.xtremeRental.repository.UserRepository;
+import com.dh.xtremeRental.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +22,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
 
     public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
@@ -30,6 +32,7 @@ public class AuthService {
         String token=jwtService.getToken(user);
         return AuthResponse.builder()
                 .token(token)
+                .id(usuario.getId())
                 .username(usuario.getUsername())
                 .nombre(usuario.getNombre())
                 .apellido(usuario.getApellido())
@@ -53,9 +56,13 @@ public class AuthService {
         User usuario = userRepository.findByUsername(request.getUsername()).orElseThrow();
         String rol = String.valueOf(usuario.getRole());
 
+        String bodyMail= ( "Hola " + usuario.getNombre() + " " + usuario.getApellido() + ", te damos la bienvenida a nuestra comunidad! \nPrepárate para ahorrar con nuestros productos. \n\nRecuerda que puedes iniciar sesión en http://xtremerental.ddns.net/  ");
+        emailService.sendEmail(usuario.getEmail(), "XtremeRental - Cuenta creada exitosamente",bodyMail);
+
         return AuthResponse.builder()
             .token(jwtService.getToken(user))
                 .username(usuario.getUsername())
+                .id(usuario.getId())
                 .nombre(usuario.getNombre())
                 .apellido(usuario.getApellido())
                 .email(usuario.getEmail())
