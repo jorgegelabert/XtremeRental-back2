@@ -22,9 +22,9 @@ public class FavoritoController {
 
     @CrossOrigin
     @PostMapping("/{idproducto}/{username}")
-    public ResponseEntity<String> crearFavorito (@PathVariable Integer idproducto, @PathVariable String username){
-        favoritoService.crearFav(idproducto,username);
-        return ResponseEntity.ok("Producto marcado como favorito para el usuario con éxito");
+    public ResponseEntity<Integer> crearFavorito (@PathVariable Integer idproducto, @PathVariable String username){
+        Integer favoritoId = favoritoService.crearFav(idproducto,username);
+        return new ResponseEntity<>(favoritoId, HttpStatus.OK);
     }
 
     @CrossOrigin
@@ -38,9 +38,21 @@ public class FavoritoController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarFavorito (@PathVariable Integer id){
-        String favorito = favoritoService.eliminar(id);
+    @GetMapping("/{username}")
+    public Set<FavoritoDto> listarFavoritosPorUsuario(@PathVariable("username") String username) {
+        Set<FavoritoDto> favoritosOrdenados = favoritoService.listartodos()
+                .stream()
+                .filter(favorito -> username.equals(favorito.getUsuario().getUsername()))
+                .sorted(Comparator.comparing(FavoritoDto::getId))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        return favoritosOrdenados;
+    }
+
+
+    @CrossOrigin
+    @DeleteMapping("/{idproducto}/{username}")
+    public ResponseEntity<?> eliminarFavorito (@PathVariable Integer idproducto, @PathVariable String username){
+        String favorito = favoritoService.eliminarFav(idproducto,username);
         return ResponseEntity.status(HttpStatus.OK).body(favorito);
     }
 }

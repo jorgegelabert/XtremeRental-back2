@@ -1,8 +1,10 @@
 package com.dh.xtremeRental.controller;
 
+import com.dh.xtremeRental.dto.FavoritoDto;
 import com.dh.xtremeRental.dto.ProductoDto;
 import com.dh.xtremeRental.dto.SubCategoriaDto;
 import com.dh.xtremeRental.entity.SubCategoria;
+import com.dh.xtremeRental.service.FavoritoService;
 import com.dh.xtremeRental.service.ImagenService;
 import com.dh.xtremeRental.service.ProductoService;
 import com.dh.xtremeRental.service.SubCategoriaService;
@@ -96,6 +98,7 @@ public class ProductoController {
 
         return new LinkedHashSet<>(productosOrdenados);
     }
+
 
 
     @CrossOrigin

@@ -34,6 +34,8 @@ public class SubCategoriaService implements ICrudService<SubCategoriaDto,Integer
         }
     }
 
+
+
     @Override
     public SubCategoriaDto buscar(Integer id) {
         Optional<SubCategoria> subCategoria = iSubCategoriaRepository.findById(id);
